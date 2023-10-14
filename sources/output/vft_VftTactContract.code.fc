@@ -2,23 +2,23 @@
 #pragma allow-post-modification;
 #pragma compute-asm-ltr;
 
-#include "sample_SampleTactContract.headers.fc";
-#include "sample_SampleTactContract.stdlib.fc";
-#include "sample_SampleTactContract.constants.fc";
-#include "sample_SampleTactContract.storage.fc";
+#include "vft_VftTactContract.headers.fc";
+#include "vft_VftTactContract.stdlib.fc";
+#include "vft_VftTactContract.constants.fc";
+#include "vft_VftTactContract.storage.fc";
 
 ;;
-;; Contract SampleTactContract functions
+;; Contract VftTactContract functions
 ;;
 
-(slice, int) $SampleTactContract$_contract_init(slice $owner) impure inline_ref {
+(slice, int) $VftTactContract$_contract_init(slice $owner) impure inline_ref {
     var (($self'owner, $self'counter)) = (null(), null());
     $self'owner = $owner;
     $self'counter = 0;
     return ($self'owner, $self'counter);
 }
 
-((slice, int), ()) $SampleTactContract$_fun_add((slice, int) $self, int $v) impure inline_ref {
+((slice, int), ()) $VftTactContract$_fun_add((slice, int) $self, int $v) impure inline_ref {
     var (($self'owner, $self'counter)) = $self;
     var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
     throw_unless(4429, ( __tact_slice_eq_bits($self'owner, $ctx'sender) ));
@@ -26,43 +26,43 @@
     return (($self'owner, $self'counter), ());
 }
 
-((slice, int), int) $SampleTactContract$_fun_counter((slice, int) $self) impure inline_ref {
+((slice, int), int) $VftTactContract$_fun_counter((slice, int) $self) impure inline_ref {
     var (($self'owner, $self'counter)) = $self;
     return (($self'owner, $self'counter), $self'counter);
 }
 
 ;;
-;; Receivers of a Contract SampleTactContract
+;; Receivers of a Contract VftTactContract
 ;;
 
-(((slice, int)), ()) $SampleTactContract$_internal_binary_Add((slice, int) $self, (int) $msg) impure inline {
+(((slice, int)), ()) $VftTactContract$_internal_binary_Add((slice, int) $self, (int) $msg) impure inline {
     var ($self'owner, $self'counter) = $self;
     var ($msg'amount) = $msg;
-    ($self'owner, $self'counter)~$SampleTactContract$_fun_add($msg'amount);
+    ($self'owner, $self'counter)~$VftTactContract$_fun_add($msg'amount);
     return (($self'owner, $self'counter), ());
 }
 
-((slice, int), ()) $SampleTactContract$_internal_text_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae((slice, int) $self) impure inline {
+((slice, int), ()) $VftTactContract$_internal_text_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae((slice, int) $self) impure inline {
     var ($self'owner, $self'counter) = $self;
-    ($self'owner, $self'counter)~$SampleTactContract$_fun_add(1);
-    ($self'owner, $self'counter)~$SampleTactContract$_fun_reply(__gen_cell_comment_3e96a74bf6f672d7e00d5d9c31c1437327e624b173365dc10e024c6410eff184());
+    ($self'owner, $self'counter)~$VftTactContract$_fun_add(1);
+    ($self'owner, $self'counter)~$VftTactContract$_fun_reply(__gen_cell_comment_3e96a74bf6f672d7e00d5d9c31c1437327e624b173365dc10e024c6410eff184());
     return (($self'owner, $self'counter), ());
 }
 
-(((slice, int)), ()) $SampleTactContract$_internal_binary_Deploy((slice, int) $self, (int) $deploy) impure inline {
+(((slice, int)), ()) $VftTactContract$_internal_binary_Deploy((slice, int) $self, (int) $deploy) impure inline {
     var ($self'owner, $self'counter) = $self;
     var ($deploy'queryId) = $deploy;
-    ($self'owner, $self'counter)~$SampleTactContract$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    ($self'owner, $self'counter)~$VftTactContract$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
     return (($self'owner, $self'counter), ());
 }
 
 ;;
-;; Get methods of a Contract SampleTactContract
+;; Get methods of a Contract VftTactContract
 ;;
 
 _ %counter() method_id(104984) {
-    var self = $SampleTactContract$_contract_load();
-    var res = self~$SampleTactContract$_fun_counter();
+    var self = $VftTactContract$_contract_load();
+    var res = self~$VftTactContract$_fun_counter();
     return res;
 }
 
@@ -76,7 +76,7 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() method_id {
-    return "ipfs://QmYzQHN2n6D1zEBuJyBnJrnmhQWzgZWhaNppmwsAFW4kNi";
+    return "ipfs://QmXRotyXEM76hzkrVDmvDZBtDhRC7NE6Ub7AwVUtbnKhbQ";
 }
 
 _ lazy_deployment_completed() method_id {
@@ -84,10 +84,10 @@ _ lazy_deployment_completed() method_id {
 }
 
 ;;
-;; Routing of a Contract SampleTactContract
+;; Routing of a Contract VftTactContract
 ;;
 
-((slice, int), int) $SampleTactContract$_contract_router_internal((slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+((slice, int), int) $VftTactContract$_contract_router_internal((slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
     ;; Handle bounced messages
     if (msg_bounced) {
         return (self, true);
@@ -103,14 +103,14 @@ _ lazy_deployment_completed() method_id {
     ;; Receive Add message
     if (op == 2278832834) {
         var msg = in_msg~$Add$_load();
-        self~$SampleTactContract$_internal_binary_Add(msg);
+        self~$VftTactContract$_internal_binary_Add(msg);
         return (self, true);
     }
     
     ;; Receive Deploy message
     if (op == 2490013878) {
         var msg = in_msg~$Deploy$_load();
-        self~$SampleTactContract$_internal_binary_Deploy(msg);
+        self~$VftTactContract$_internal_binary_Deploy(msg);
         return (self, true);
     }
     
@@ -120,7 +120,7 @@ _ lazy_deployment_completed() method_id {
         
         ;; Receive "increment" message
         if (text_op == 0xc4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae) {
-            self~$SampleTactContract$_internal_text_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae();
+            self~$VftTactContract$_internal_text_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae();
             return (self, true);
         }
     }
@@ -139,14 +139,14 @@ _ lazy_deployment_completed() method_id {
     __tact_context_sender = msg_sender_addr;
     
     ;; Load contract data
-    var self = $SampleTactContract$_contract_load();
+    var self = $VftTactContract$_contract_load();
     
     ;; Handle operation
-    int handled = self~$SampleTactContract$_contract_router_internal(msg_bounced, in_msg);
+    int handled = self~$VftTactContract$_contract_router_internal(msg_bounced, in_msg);
     
     ;; Throw if not handled
     throw_unless(130, handled);
     
     ;; Persist state
-    $SampleTactContract$_contract_store(self);
+    $VftTactContract$_contract_store(self);
 }
