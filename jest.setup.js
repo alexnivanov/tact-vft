@@ -1,5 +1,5 @@
-const coverage = require('@tact-lang/coverage');
+const coverage = require('@tact-lang/coverage')
 
 module.exports = async () => {
-    coverage.beginCoverage();
-};
+    coverage.beginCoverage()
+}
