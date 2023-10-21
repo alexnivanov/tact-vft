@@ -1,34 +1,30 @@
 import { toNano } from 'ton'
 import { ContractSystem } from '@tact-lang/emulator'
-import { VftTactContract } from './output/vft_VftTactContract'
+import { VftStatementContract } from './output/vft_VftStatementContract'
+import { VftData, VftMasterContract } from './output/vft_VftMasterContract'
 
 describe('contract', () => {
-    it('should deploy correctly', async () => {
-        // Create ContractSystem and deploy contract
+    it('should deploy master and statement', async () => {
         let system = await ContractSystem.create()
         let owner = system.treasure('owner')
-        let nonOwner = system.treasure('non-owner')
-        let contract = system.open(await VftTactContract.fromInit(owner.address))
-        system.name(contract.address, 'main')
-        let track = system.track(contract)
-        await contract.send(owner, { value: toNano(1) }, { $$type: 'Deploy', queryId: 0n })
+        let vftMaster = system.open(await VftMasterContract.fromInit(owner.address))
+        system.name(vftMaster.address, 'master')
+        await vftMaster.send(owner, { value: toNano(1) }, { $$type: 'Deploy', queryId: 0n })
         await system.run()
 
-        // Check counter
-        expect(await contract.getCounter()).toEqual(0n)
+        expect(await vftMaster.getStatementsCount()).toEqual(0n)
 
-        // Increment counter
-        await contract.send(owner, { value: toNano(1) }, 'increment')
+        const data: VftData = { $$type: 'VftData' as const, statement: 'test statement', url: null }
+
+        await vftMaster.send(owner, { value: toNano(1) }, { $$type: 'NewParentStatement' as const, data })
         await system.run()
 
-        // Check counter
-        expect(await contract.getCounter()).toEqual(1n)
+        expect(await vftMaster.getStatementsCount()).toEqual(1n)
 
-        // Non-owner
-        await contract.send(nonOwner, { value: toNano(1) }, 'increment')
-        await system.run()
+        let statementAddress = await vftMaster.getStatementAddress(0n)
+        let statementContract = VftStatementContract.fromAddress(statementAddress)
+        let vftStatement = system.open(statementContract)
 
-        // Check counter not changed
-        expect(await contract.getCounter()).toEqual(1n)
+        expect(await vftStatement.getData()).toEqual(data)
     })
 })

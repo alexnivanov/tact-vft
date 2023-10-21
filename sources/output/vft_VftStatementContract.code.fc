@@ -1,0 +1,294 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "vft_VftStatementContract.headers.fc";
+#include "vft_VftStatementContract.stdlib.fc";
+#include "vft_VftStatementContract.storage.fc";
+
+;;
+;; Contract VftStatementContract functions
+;;
+
+(slice, int, int, slice, tuple, int, int, int) $VftStatementContract$_contract_init(slice $parent, int $idx, int $pro) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = (null(), null(), null(), null(), null(), 0, 0, 0);
+    throw_unless(2840, ( __tact_slice_eq_bits($parent, __tact_context_get_sender()) ));
+    $self'parent = $parent;
+    $self'idx = $idx;
+    $self'pro = $pro;
+    return ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount);
+}
+
+((slice, int, int, slice, tuple, int, int, int), slice) $VftStatementContract$_fun_balance((slice, int, int, slice, tuple, int, int, int) $self) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $Int$_fun_toCoinsString(__tact_my_balance()));
+}
+
+((slice, int, int, slice, tuple, int, int, int), (slice, slice)) $VftStatementContract$_fun_data((slice, int, int, slice, tuple, int, int, int) $self) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $VftData$_not_null($self'data));
+}
+
+((slice, int, int, slice, tuple, int, int, int), int) $VftStatementContract$_fun_proStatementsCount((slice, int, int, slice, tuple, int, int, int) $self) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $self'proStatementsCount);
+}
+
+((slice, int, int, slice, tuple, int, int, int), slice) $VftStatementContract$_fun_proStatementAddress((slice, int, int, slice, tuple, int, int, int) $self, int $idx) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $global_contractAddress($VftStatementContract$_init_child(__tact_context_sys, __tact_not_null($self'owner), $idx, true)));
+}
+
+((slice, int, int, slice, tuple, int, int, int), int) $VftStatementContract$_fun_conStatementsCount((slice, int, int, slice, tuple, int, int, int) $self) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $self'conStatementsCount);
+}
+
+((slice, int, int, slice, tuple, int, int, int), slice) $VftStatementContract$_fun_conStatementAddress((slice, int, int, slice, tuple, int, int, int) $self, int $idx) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $global_contractAddress($VftStatementContract$_init_child(__tact_context_sys, __tact_not_null($self'owner), $idx, false)));
+}
+
+((slice, int, int, slice, tuple, int, int, int), int) $VftStatementContract$_fun_votesCount((slice, int, int, slice, tuple, int, int, int) $self) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $self'votesCount);
+}
+
+((slice, int, int, slice, tuple, int, int, int), slice) $VftStatementContract$_fun_voteAddress((slice, int, int, slice, tuple, int, int, int) $self, int $idx) impure inline_ref {
+    var (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)) = $self;
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), $global_contractAddress($VftVoteContract$_init_child(__tact_context_sys, __tact_not_null($self'owner), $idx)));
+}
+
+;;
+;; Receivers of a Contract VftStatementContract
+;;
+
+(((slice, int, int, slice, tuple, int, int, int)), ()) $VftStatementContract$_internal_binary_SetStatementData((slice, int, int, slice, tuple, int, int, int) $self, (slice, (slice, slice)) $msg) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    var ($msg'owner, ($msg'data'statement, $msg'data'url)) = $msg;
+    throw_unless(58771, ( __tact_slice_eq_bits($self'parent, __tact_context_get_sender()) ));
+    $self'owner = $msg'owner;
+    $self'data = $VftData$_as_optional(($msg'data'statement, $msg'data'url));
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+(((slice, int, int, slice, tuple, int, int, int)), ()) $VftStatementContract$_internal_binary_NewChildStatement((slice, int, int, slice, tuple, int, int, int) $self, ((slice, slice), int) $msg) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    var (($msg'data'statement, $msg'data'url), $msg'pro) = $msg;
+    if ($msg'pro) {
+        var ($init'code, $init'data) = $VftStatementContract$_init_child(__tact_context_sys, __tact_not_null($self'owner), $self'proStatementsCount, true);
+        $global_send($SendParameters$_constructor_to_body_value_mode_code_data($global_contractAddress(($init'code, $init'data)), $SetStatementData$_store_cell($SetStatementData$_constructor_owner_data(__tact_context_get_sender(), ($msg'data'statement, $msg'data'url))), 10000000, 2, $init'code, $init'data));
+        ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)~$VftStatementContract$_fun_reply($ChildCreated$_store_cell($ChildCreated$_constructor_idx($self'proStatementsCount)));
+        $self'proStatementsCount = ($self'proStatementsCount + 1);
+    } else {
+        var ($init'code, $init'data) = $VftStatementContract$_init_child(__tact_context_sys, __tact_not_null($self'owner), $self'conStatementsCount, false);
+        $global_send($SendParameters$_constructor_to_body_value_mode_code_data($global_contractAddress(($init'code, $init'data)), $SetStatementData$_store_cell($SetStatementData$_constructor_owner_data(__tact_context_get_sender(), ($msg'data'statement, $msg'data'url))), 10000000, 2, $init'code, $init'data));
+        ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)~$VftStatementContract$_fun_reply($ChildCreated$_store_cell($ChildCreated$_constructor_idx($self'conStatementsCount)));
+        $self'conStatementsCount = ($self'conStatementsCount + 1);
+    }
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+((slice, int, int, slice, tuple, int, int, int), ()) $VftStatementContract$_internal_text_61d4984869602654e350e1909ea32d1e3fb2c63bd60a938509729f1acd1cd643((slice, int, int, slice, tuple, int, int, int) $self) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    var ($init'code, $init'data) = $VftVoteContract$_init_child(__tact_context_sys, __tact_not_null($self'owner), $self'votesCount);
+    $global_send($SendParameters$_constructor_to_body_value_mode_code_data($global_contractAddress(($init'code, $init'data)), $SetVoteData$_store_cell($SetVoteData$_constructor_owner(__tact_context_get_sender())), 10000000, 2, $init'code, $init'data));
+    ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount)~$VftStatementContract$_fun_reply($ChildCreated$_store_cell($ChildCreated$_constructor_idx($self'votesCount)));
+    $self'votesCount = ($self'votesCount + 1);
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+(((slice, int, int, slice, tuple, int, int, int)), ()) %$VftStatementContract$_internal_empty((slice, int, int, slice, tuple, int, int, int) $self) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    __tact_nop();
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+((slice, int, int, slice, tuple, int, int, int), ()) $VftStatementContract$_internal_text_5092b5dce0715a57dd969f5fb5a6f93025a0b02eab329470ca2b365ca0d7e93a((slice, int, int, slice, tuple, int, int, int) $self) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    throw_unless(27921, ( __tact_slice_eq_bits_nullable_one($self'owner, __tact_context_get_sender()) ));
+    $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), true, 0, (128 + 2)));
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+((slice, int, int, slice, tuple, int, int, int), ()) $VftStatementContract$_internal_text_beb2935a82089b154d32f99c4377aa960aa115366cc2c602755e36b97f505cec((slice, int, int, slice, tuple, int, int, int) $self) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    throw_unless(27921, ( __tact_slice_eq_bits_nullable_one($self'owner, __tact_context_get_sender()) ));
+    $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), true, ((__tact_my_balance() - $Context$_get_value(__tact_context_get())) - 10000000), (64 + 2)));
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+(((slice, int, int, slice, tuple, int, int, int)), ()) $VftStatementContract$_internal_binary_Withdraw((slice, int, int, slice, tuple, int, int, int) $self, (int) $msg) impure inline {
+    var ($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount) = $self;
+    var ($msg'amount) = $msg;
+    throw_unless(27921, ( __tact_slice_eq_bits_nullable_one($self'owner, __tact_context_get_sender()) ));
+    int $amount = min($msg'amount, ((__tact_my_balance() - $Context$_get_value(__tact_context_get())) - 10000000));
+    throw_unless(54615, ($amount > 0));
+    $global_send($SendParameters$_constructor_to_bounce_value_mode(__tact_context_get_sender(), true, $amount, (64 + 2)));
+    return (($self'parent, $self'idx, $self'pro, $self'owner, $self'data, $self'proStatementsCount, $self'conStatementsCount, $self'votesCount), ());
+}
+
+;;
+;; Get methods of a Contract VftStatementContract
+;;
+
+_ %balance() method_id(104128) {
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_balance();
+    return res;
+}
+
+_ %data() method_id(100194) {
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_data();
+    return $VftData$_to_external(res);
+}
+
+_ %proStatementsCount() method_id(74815) {
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_proStatementsCount();
+    return res;
+}
+
+_ %proStatementAddress(int $$idx) method_id(66945) {
+    int $idx = $$idx;
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_proStatementAddress($idx);
+    return res;
+}
+
+_ %conStatementsCount() method_id(111853) {
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_conStatementsCount();
+    return res;
+}
+
+_ %conStatementAddress(int $$idx) method_id(87096) {
+    int $idx = $$idx;
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_conStatementAddress($idx);
+    return res;
+}
+
+_ %votesCount() method_id(91559) {
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_votesCount();
+    return res;
+}
+
+_ %voteAddress(int $$idx) method_id(116068) {
+    int $idx = $$idx;
+    var self = $VftStatementContract$_contract_load();
+    var res = self~$VftStatementContract$_fun_voteAddress($idx);
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmRWSmwc6oHSWA2oj8s7XG6kdGS6ihEhvRdMwAmSPGwEEX";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract VftStatementContract
+;;
+
+((slice, int, int, slice, tuple, int, int, int), int) $VftStatementContract$_contract_router_internal((slice, int, int, slice, tuple, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive SetStatementData message
+    if (op == 1407903804) {
+        var msg = in_msg~$SetStatementData$_load();
+        self~$VftStatementContract$_internal_binary_SetStatementData(msg);
+        return (self, true);
+    }
+    
+    ;; Receive NewChildStatement message
+    if (op == 2344307509) {
+        var msg = in_msg~$NewChildStatement$_load();
+        self~$VftStatementContract$_internal_binary_NewChildStatement(msg);
+        return (self, true);
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (slice_bits(in_msg) <= 32)) {
+        self~%$VftStatementContract$_internal_empty();
+        return (self, true);
+    }
+    
+    ;; Receive Withdraw message
+    if (op == 195467089) {
+        var msg = in_msg~$Withdraw$_load();
+        self~$VftStatementContract$_internal_binary_Withdraw(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "vote" message
+        if (text_op == 0x61d4984869602654e350e1909ea32d1e3fb2c63bd60a938509729f1acd1cd643) {
+            self~$VftStatementContract$_internal_text_61d4984869602654e350e1909ea32d1e3fb2c63bd60a938509729f1acd1cd643();
+            return (self, true);
+        }
+        
+        ;; Receive "withdraw all" message
+        if (text_op == 0x5092b5dce0715a57dd969f5fb5a6f93025a0b02eab329470ca2b365ca0d7e93a) {
+            self~$VftStatementContract$_internal_text_5092b5dce0715a57dd969f5fb5a6f93025a0b02eab329470ca2b365ca0d7e93a();
+            return (self, true);
+        }
+        
+        ;; Receive "withdraw safe" message
+        if (text_op == 0xbeb2935a82089b154d32f99c4377aa960aa115366cc2c602755e36b97f505cec) {
+            self~$VftStatementContract$_internal_text_beb2935a82089b154d32f99c4377aa960aa115366cc2c602755e36b97f505cec();
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $VftStatementContract$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$VftStatementContract$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $VftStatementContract$_contract_store(self);
+}

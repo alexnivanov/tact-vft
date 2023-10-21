@@ -3,8 +3,8 @@
 This project has ready to use TACT compiler, typescript + jest with [tact-emulator](https://github.com/tact-lang/tact-emulator), example how to do tests.
 
 ```bash
-yarn test # To test contract
 yarn build # To build contract
+yarn test # To test contract
 yarn deploy # To deploy contract
 ```
 

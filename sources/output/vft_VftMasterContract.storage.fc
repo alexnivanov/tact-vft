@@ -1,0 +1,233 @@
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: Context
+;; TLB: _ bounced:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounced, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline {
+    return (bounce, to, value, mode, body, code, data);
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_body_value_mode_code_data(slice to, cell body, int value, int mode, cell code, cell data) inline {
+    return (true, to, value, mode, body, code, data);
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_bounce_value_mode(slice to, int bounce, int value, int mode) inline {
+    return (bounce, to, value, mode, null(), null(), null());
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2490013878);
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int queryId) inline {
+    return (queryId);
+}
+
+;;
+;; Type: VftData
+;; TLB: _ statement:Maybe ^string url:Maybe ^string = VftData
+;;
+
+builder $VftData$_store(builder build_0, (slice, slice) v) inline {
+    var (v'statement, v'url) = v;
+    build_0 = ~ null?(v'statement) ? build_0.store_int(true, 1).store_ref(begin_cell().store_slice(v'statement).end_cell()) : build_0.store_int(false, 1);
+    build_0 = ~ null?(v'url) ? build_0.store_int(true, 1).store_ref(begin_cell().store_slice(v'url).end_cell()) : build_0.store_int(false, 1);
+    return build_0;
+}
+
+(slice, ((slice, slice))) $VftData$_load(slice sc_0) inline {
+    var v'statement = sc_0~load_int(1) ? sc_0~load_ref().begin_parse() : null();
+    var v'url = sc_0~load_int(1) ? sc_0~load_ref().begin_parse() : null();
+    return (sc_0, (v'statement, v'url));
+}
+
+;;
+;; Type: Withdraw
+;; Header: 0x0ba69751
+;; TLB: withdraw#0ba69751 amount:coins = Withdraw
+;;
+
+(slice, ((int))) $Withdraw$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 195467089);
+    var v'amount = sc_0~load_coins();
+    return (sc_0, (v'amount));
+}
+
+;;
+;; Type: NewParentStatement
+;; Header: 0xe057c9c1
+;; TLB: new_parent_statement#e057c9c1 data:VftData{statement:Maybe ^string,url:Maybe ^string} = NewParentStatement
+;;
+
+(slice, (((slice, slice)))) $NewParentStatement$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 3763849665);
+    var v'data = sc_0~$VftData$_load();
+    return (sc_0, (v'data));
+}
+
+;;
+;; Type: ChildCreated
+;; Header: 0x4d60c431
+;; TLB: child_created#4d60c431 idx:uint256 = ChildCreated
+;;
+
+builder $ChildCreated$_store(builder build_0, (int) v) inline {
+    var (v'idx) = v;
+    build_0 = store_uint(build_0, 1298187313, 32);
+    build_0 = build_0.store_uint(v'idx, 256);
+    return build_0;
+}
+
+cell $ChildCreated$_store_cell((int) v) inline {
+    return $ChildCreated$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $ChildCreated$_constructor_idx(int idx) inline {
+    return (idx);
+}
+
+;;
+;; Type: SetStatementData
+;; Header: 0x53eae83c
+;; TLB: set_statement_data#53eae83c owner:address data:VftData{statement:Maybe ^string,url:Maybe ^string} = SetStatementData
+;;
+
+builder $SetStatementData$_store(builder build_0, (slice, (slice, slice)) v) inline {
+    var (v'owner, (v'data'statement, v'data'url)) = v;
+    build_0 = store_uint(build_0, 1407903804, 32);
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = $VftData$_store(build_0, (v'data'statement, v'data'url));
+    return build_0;
+}
+
+cell $SetStatementData$_store_cell((slice, (slice, slice)) v) inline {
+    return $SetStatementData$_store(begin_cell(), v).end_cell();
+}
+
+((slice, (slice, slice))) $SetStatementData$_constructor_owner_data(slice owner, (slice, slice) data) inline {
+    return (owner, data);
+}
+
+;;
+;; Type: VftMasterContract
+;;
+
+builder $VftMasterContract$_store(builder build_0, (slice, int) v) inline {
+    var (v'owner, v'statementsCount) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_uint(v'statementsCount, 256);
+    return build_0;
+}
+
+(slice, ((slice, int))) $VftMasterContract$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    var v'statementsCount = sc_0~load_uint(256);
+    return (sc_0, (v'owner, v'statementsCount));
+}
+
+(slice, ((slice))) $VftMasterContract$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    return (sc_0, (v'owner));
+}
+
+(slice, int) $VftMasterContract$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$VftMasterContract$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        (slice owner) = $sc~$VftMasterContract$init$_load();
+        $sc.end_parse();
+        return $VftMasterContract$_contract_init(owner);
+    }
+}
+
+() $VftMasterContract$_contract_store((slice, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $VftMasterContract$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Type: VftStatementContract
+;;
+
+builder $VftStatementContract$init$_store(builder build_0, (slice, int, int) v) inline {
+    var (v'parent, v'idx, v'pro) = v;
+    build_0 = __tact_store_address(build_0, v'parent);
+    build_0 = build_0.store_int(v'idx, 257);
+    build_0 = build_0.store_int(v'pro, 1);
+    return build_0;
+}
+
+(cell, cell) $VftStatementContract$_init_child(cell sys', slice $parent, int $idx, int $pro) inline_ref {
+    slice sc' = sys'.begin_parse();
+    cell source = sc'~load_dict();
+    cell contracts = new_dict();
+    
+    ;; Contract Code: VftStatementContract
+    cell mine = __tact_dict_get_code(source, 5358);
+    contracts = __tact_dict_set_code(contracts, 5358, mine);
+    
+    ;; Contract Code: VftVoteContract
+    cell code_15856 = __tact_dict_get_code(source, 15856);
+    contracts = __tact_dict_set_code(contracts, 15856, code_15856);
+    
+    ;; Build cell
+    builder b = begin_cell();
+    b = b.store_ref(begin_cell().store_dict(contracts).end_cell());
+    b = b.store_int(false, 1);
+    b = $VftStatementContract$init$_store(b, ($parent, $idx, $pro));
+    return (mine, b.end_cell());
+}

@@ -1,0 +1,90 @@
+;;
+;; Type: Context
+;; TLB: _ bounced:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounced, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_bounce_value_mode(slice to, int bounce, int value, int mode) inline {
+    return (bounce, to, value, mode, null(), null(), null());
+}
+
+;;
+;; Type: Withdraw
+;; Header: 0x0ba69751
+;; TLB: withdraw#0ba69751 amount:coins = Withdraw
+;;
+
+(slice, ((int))) $Withdraw$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 195467089);
+    var v'amount = sc_0~load_coins();
+    return (sc_0, (v'amount));
+}
+
+;;
+;; Type: SetVoteData
+;; Header: 0xe7cec7c2
+;; TLB: set_vote_data#e7cec7c2 owner:address = SetVoteData
+;;
+
+(slice, ((slice))) $SetVoteData$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 3889088450);
+    var v'owner = sc_0~__tact_load_address();
+    return (sc_0, (v'owner));
+}
+
+;;
+;; Type: VftVoteContract
+;;
+
+builder $VftVoteContract$_store(builder build_0, (slice, int, slice) v) inline {
+    var (v'statement, v'idx, v'owner) = v;
+    build_0 = __tact_store_address(build_0, v'statement);
+    build_0 = build_0.store_uint(v'idx, 256);
+    build_0 = __tact_store_address_opt(build_0, v'owner);
+    return build_0;
+}
+
+(slice, ((slice, int, slice))) $VftVoteContract$_load(slice sc_0) inline {
+    var v'statement = sc_0~__tact_load_address();
+    var v'idx = sc_0~load_uint(256);
+    var v'owner = sc_0~__tact_load_address_opt();
+    return (sc_0, (v'statement, v'idx, v'owner));
+}
+
+(slice, ((slice, int))) $VftVoteContract$init$_load(slice sc_0) inline {
+    var v'statement = sc_0~__tact_load_address();
+    var v'idx = sc_0~load_int(257);
+    return (sc_0, (v'statement, v'idx));
+}
+
+(slice, int, slice) $VftVoteContract$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$VftVoteContract$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        (slice statement, int idx) = $sc~$VftVoteContract$init$_load();
+        $sc.end_parse();
+        return $VftVoteContract$_contract_init(statement, idx);
+    }
+}
+
+() $VftVoteContract$_contract_store((slice, int, slice) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $VftVoteContract$_store(b, v);
+    set_data(b.end_cell());
+}
